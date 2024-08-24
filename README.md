@@ -5,49 +5,6 @@
 - Node.js (v14 or later)
 - MySQL
 
-### Installation
-
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/Prak-NodeJs/vistaar_task.git
-    cd employee_management_system
-    ```
-
-2. Install dependencies for the server:
-    ```bash
-    cd Server
-    npm install
-    ```
-
-3. Install dependencies for the client:
-    ```bash
-    cd Client
-    npm install
-    ```
-
-4. Set up environment variables:
-    - Copy the `sample_env.env` file to `.env` in the `Server` directory.
-    - Update the `.env` file with the necessary environment variables.
-
-    ```bash
-    cp sample_env.env .env
-    ```
-
-    Open the `.env` file and configure your environment variables according to your setup.
-
-5. Start the development servers:
-    - For the server application:
-      ```bash
-      cd ./Server
-      npm start
-      ```
-    - For the client application:
-      ```bash
-      cd ./Client
-      npm start
-      ```
-  
-6. Open your browser and navigate to `http://localhost:3000`.
 
 ### Features
 
@@ -91,3 +48,47 @@
    ![requested_leaves](./ApplicationImages/leaveRequest.png)
    ![requested_reimbusrment](./ApplicationImages/reimbursmentrequests.png)
 
+
+### Installation
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Prak-NodeJs/vistaar_task.git
+    cd employee_management_system
+    ```
+
+2. Install dependencies for the server:
+    ```bash
+    cd Server
+    npm install
+    ```
+
+3. Install dependencies for the client:
+    ```bash
+    cd Client
+    npm install
+    ```
+
+4. Set up environment variables:
+    - Copy the `sample_env.env` file to `.env` in the `Server` directory.
+    - Update the `.env` file with the necessary environment variables.
+
+    ```bash
+    cp sample_env.env .env
+    ```
+
+    Open the `.env` file and configure your environment variables according to your setup.
+
+5. Start the development servers:
+    - For the server application:
+      ```bash
+      cd ./Server
+      npm start
+      ```
+    - For the client application:
+      ```bash
+      cd ./Client
+      npm start
+      ```
+  
+6. Open your browser and navigate to `http://localhost:3000`.
