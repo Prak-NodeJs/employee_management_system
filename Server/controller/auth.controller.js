@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { User, Leave } = require('../models');
+const { User, User_Leave } = require('../models');
 const { ApiError } = require('../middleware/ApiError');
 
 const registerUser = async (req, res, next) => {
@@ -28,9 +28,21 @@ const registerUser = async (req, res, next) => {
     });
 
     // add leaves for user.
-    await Leave.create({
+    await User_Leave.bulkCreate([
+      {
+      leave_type: 'Casual Leave',
+      total_leave: 12,
+      leave_balance: 12,
       user_id: newUser.id
-    });
+    },
+    {
+      leave_type: 'Sick Leave',
+      total_leave: 12,
+      leave_balance: 12,
+      user_id: newUser.id
+    },
+  ]
+  );
 
 
     res.status(201).json({
@@ -62,7 +74,7 @@ const loginUser = async (req, res, next) => {
       throw new ApiError(401, 'Invalid email or password');
     }
 
-    const token = jwt.sign({ id: user.id },process.env.JWT_SECRET,
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRY }
     );
 

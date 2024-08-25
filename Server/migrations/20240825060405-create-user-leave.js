@@ -2,33 +2,26 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Leaves', {
+    await queryInterface.createTable('User_Leaves', {
       id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
+        allowNull: false,
         autoIncrement: true,
-      },
-      start_date: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      end_date: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      status: {
-        type: Sequelize.ENUM('Pending', 'Accepted', 'Rejected'),
-        allowNull: false,
-        defaultValue: 'Pending',
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
       leave_type: {
         type: Sequelize.ENUM('Casual Leave', 'Sick Leave'),
-        allowNull: false,
-        defaultValue: 'Casual Leave',
+        allowNull:false,
+        defaultValue:'Casual Leave'
       },
-      reason:{
-        type:Sequelize.STRING,
-        allowNull:false
+      total_leave:{
+        type:Sequelize.INTEGER,
+        defaultValue:12
+      },
+      leave_balance:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+        defaultValue:12
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -55,6 +48,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Leaves');
+    await queryInterface.dropTable('User_Leaves');
   }
 };

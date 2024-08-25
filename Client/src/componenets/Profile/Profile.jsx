@@ -32,9 +32,10 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
+       <h2>Profile</h2>
       {userData ? (
         <div className="profile-details">
-          <h2>Profile</h2>
+        <div className="personal_details">
           <p><strong>Name:</strong> {userData.name}</p>
           <p><strong>Email:</strong> {userData.email}</p>
           <p><strong>Role:</strong> {userData.role}</p>
@@ -43,10 +44,18 @@ const Profile = () => {
           <p><strong>Job Location:</strong> {userData.job_location}</p>
           <p><strong>Reporting Manager:</strong> {userData.reporting_manager}</p>
           <p><strong>Joining Date:</strong> {new Date(userData.joining_date).toLocaleDateString()}</p>
-          <p><strong>Total Leave:</strong> {userData.totalLeave}</p>
-          <p><strong>Leaves Taken:</strong> {userData.leavesTaken}</p>
-          <p><strong>Balance Leave:</strong> {userData.balanceLeaves}</p>
-
+          </div>
+          <div className="leave_details">
+          <p><strong>Total Leave : </strong> {userData.totalLeave}</p>
+          <p><strong>Leaves Taken : </strong> {userData.totalLeaveTaken}</p>
+          <p><strong>Balance Leave : </strong> {userData.totalBalanceLeaves}</p>
+          <p><strong>Total Casual Leave : </strong>{userData.totalCasualLeave}</p>
+          <p><strong>Balance Casual Leave : </strong>{userData.balanceCasualLeaves}</p>
+          <p><strong>Casual Leave Taken : </strong>{userData.totalCasualLeaveTaken}</p>
+          <p><strong>Total Sick Leave : </strong>{userData.totalSickLeave}</p>
+          <p><strong>Balance Sick Leave : </strong>{userData.balanceSickLeaves}</p>
+          <p><strong>Sick Leave Taken : </strong>{userData.totalSickLeaveTaken}</p>
+          </div>
         </div>
       ) : (
         <p>Loading profile data...</p>

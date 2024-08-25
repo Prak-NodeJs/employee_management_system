@@ -8,6 +8,8 @@ const ApplyLeave = () => {
   const { authData } = useContext(storeContext);
   const [endDate, setEndDate] = useState('');
   const [leaveType, setLeaveType] = useState('Casual Leave');
+  const [leaveReason, setLeaveReason] = useState('');
+
   const [error, setError] = useState('');
   const navigate = useNavigate()
 
@@ -25,6 +27,7 @@ const ApplyLeave = () => {
           start_date: startDate,
           end_date: endDate,
           leave_type: leaveType,
+          reason:leaveReason
         }),
       });
 
@@ -62,6 +65,16 @@ const ApplyLeave = () => {
             id="end-date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="end-date">Leave Reason:</label>
+          <input
+            type="text"
+            id="end-date"
+            value={leaveReason}
+            onChange={(e) => setLeaveReason(e.target.value)}
             required
           />
         </div>

@@ -42,6 +42,8 @@ const RequestedLeave = () => {
             <th>End Date</th>
             <th>Leave Type</th>
             <th>Status</th>
+            <th>Reason</th>
+
           </tr>
         </thead>
         <tbody>
@@ -53,6 +55,8 @@ const RequestedLeave = () => {
                 <td>{new Date(leave.end_date).toLocaleDateString()}</td>
                 <td>{leave.leave_type}</td>
                 <td>{leave.status}</td>
+                <td>{leave.reason}</td>
+
               </tr>
             ))
           )}

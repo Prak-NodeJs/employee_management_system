@@ -20,32 +20,27 @@ module.exports = (sequelize, DataTypes) => {
       },
       start_date: {
         type: DataTypes.DATE,
-        allowNull:true,
+        allowNull:false,
       },
       end_date: {
         type: DataTypes.DATE,
-        allowNull:true
+        allowNull:false
+      },
+      reason:{
+        type:DataTypes.STRING,
+        allowNull:false
       },
       status: {
         type: DataTypes.ENUM('Pending', 'Accepted', 'Rejected'),
         allowNull: false,
         defaultValue: 'Pending',
       },
-      leave_type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'Casual Leave',
-      },
-      total_leave:{
-        type:DataTypes.INTEGER,
-        allowNull:false,
-        defaultValue:12
-      },
-      leave_balance: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 12,
-      },
+        leave_type: {
+          type: DataTypes.ENUM('Casual Leave','Sick Leave'),
+          allowNull:true,
+          defaultValue: 'Casual Leave',
+        },  
+      
       user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,

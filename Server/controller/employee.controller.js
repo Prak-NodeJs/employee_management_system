@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { User, Leave, Reimbursement } = require('../models');
+const { User, Leave, Reimbursement, User_Leave } = require('../models');
 const { ApiError } = require('../middleware/ApiError');
 const { Op } = require('sequelize');
 
@@ -28,10 +28,22 @@ const addUser = async (req, res, next) => {
             joining_date,
         });
 
-        //add leave for user 
-        await Leave.create({
-            user_id: newUser.id
-          });
+        // add leaves for user.
+        await User_Leave.bulkCreate([
+            {
+                leave_type: 'Casual Leave',
+                total_leave: 12,
+                leave_balance: 12,
+                user_id: newUser.id
+            },
+            {
+                leave_type: 'Sick Leave',
+                total_leave: 12,
+                leave_balance: 12,
+                user_id: newUser.id
+            },
+        ]
+        );
 
         res.status(201).json({
             success: true,
@@ -56,37 +68,46 @@ const getUser = async (req, res, next) => {
         const { id } = req.user
         const userData = await User.findOne({
             where: { id },
-            attributes: ['id', 'name', 'email', 'role', 'address', 'grade', 'job_location', 'reporting_manager', 'joining_date']
+            attributes: ['id', 'name', 'email', 'role', 'address', 'grade', 'job_location', 'reporting_manager', 'joining_date'],
+            include:[
+                {
+                    model:User_Leave,
+                    as:"user_leaves"
+                }
+            ]
         });
 
         if (!userData) {
             throw new ApiError(404, 'User not found');
         }
 
-        const leaveData = await Leave.findOne({
-            where: { user_id: id, leave_type: "Casual Leave" },
-            order: [['createdAt', 'DESC']],
-        });
-
-        if (!leaveData) {
-            throw new ApiError(404, 'User leave record is not found');
-        }
-
-        const totalLeave = leaveData.total_leave;
-        const leavesTaken = leaveData.total_leave-leaveData.leave_balance
-        const balanceLeaves = leaveData.leave_balance
+        const totalCasualLeave=userData.user_leaves[0].total_leave
+        const balanceCasualLeaves=userData.user_leaves[0].leave_balance
+        const totalSickLeave=userData.user_leaves[1].total_leave
+        const balanceSickLeaves=userData.user_leaves[1].leave_balance
+        const totalSickLeaveTaken=totalSickLeave-balanceSickLeaves
+        const totalCasualLeaveTaken = totalCasualLeave-balanceCasualLeaves
+        const totalLeave= totalCasualLeave+totalSickLeave
+        const totalLeaveTaken= totalCasualLeaveTaken+totalSickLeaveTaken
+        const totalBalanceLeaves = totalLeave-totalLeaveTaken
 
         const responseData = {
             ...userData.get(),
             totalLeave,
-            leavesTaken,
-            balanceLeaves
+            totalLeaveTaken,
+            totalBalanceLeaves,
+            totalCasualLeave,
+            balanceCasualLeaves,
+            totalCasualLeaveTaken,
+            totalSickLeave,
+            balanceSickLeaves,
+            totalSickLeaveTaken
         };
 
         res.status(200).json({
             success: true,
             message: 'User Retrieved',
-            data: responseData
+            data:responseData
         });
 
 
@@ -98,16 +119,15 @@ const getUser = async (req, res, next) => {
 //apply for leave
 const applyForLeave = async (req, res, next) => {
     try {
-        const { start_date, end_date, leave_type} = req.body;
+        const { start_date, end_date, leave_type, reason } = req.body;
         const user_id = req.user.id;
 
-        if(start_date>end_date){
-            throw new ApiError(400,'start_date should not be greater than end_date')
+        if (start_date > end_date) {
+            throw new ApiError(400, 'start_date should not be greater than end_date')
         }
 
-        const leaveData = await Leave.findOne({
-            where: { user_id, leave_type: "Casual Leave" },
-            order: [['createdAt', 'DESC']],
+        const leaveData = await User_Leave.findOne({
+            where: { user_id, leave_type: leave_type },
         });
 
         if (!leaveData) {
@@ -127,10 +147,13 @@ const applyForLeave = async (req, res, next) => {
         const newLeave = await Leave.create({
             start_date,
             end_date,
-            leave_balance: leaveBalance - daysRequested,
             user_id,
-            leave_type:leave_type?leave_type:'Casual Leave'
+            reason,
+            leave_type: leave_type ? leave_type : 'Casual Leave'
         });
+
+        leaveData.leave_balance=leaveData.leave_balance-daysRequested;
+        await leaveData.save()
 
         res.status(201).json({
             success: true,
@@ -182,11 +205,7 @@ const getLeaveRequests = async (req, res, next) => {
                 {
                     model: Leave,
                     as: "leaves",
-                    attributes: ['id', 'start_date', 'end_date', 'status', 'leave_type', 'leave_balance'],
-                    where: {
-                        start_date: { [Op.ne]: null },
-                        end_date: { [Op.ne]: null },
-                    }
+                    attributes: ['id', 'start_date', 'end_date', 'status', 'leave_type', 'reason']
                 }
             ],
         });
@@ -228,20 +247,17 @@ const getReImbusrementRequests = async (req, res, next) => {
 
 
 //get all your requested leaves
-const getRequestedLeaves = async (req, res, next)=>{
+const getRequestedLeaves = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const leaves = await User.findAll({
-            where:{id:userId},
-            include:[
+            where: { id: userId },
+            attributes: ['id', 'name', 'email', 'role', 'address', 'grade', 'job_location', 'reporting_manager', 'joining_date'],
+            include: [
                 {
-                    model:Leave,
-                    as:'leaves',
-                    attributes: ['id', 'start_date', 'end_date', 'status', 'leave_type', 'leave_balance'],
-                    where: {
-                        start_date: { [Op.ne]: null },
-                        end_date: { [Op.ne]: null },
-                    }
+                    model: Leave,
+                    as: 'leaves',
+                    attributes: ['id', 'start_date', 'end_date', 'status', 'leave_type','reason']
                 }
             ]
         })
@@ -251,7 +267,7 @@ const getRequestedLeaves = async (req, res, next)=>{
             message: 'All requested leave retrieved successfully',
             data: leaves,
         });
-        
+
 
     } catch (error) {
         next(error)
@@ -259,14 +275,15 @@ const getRequestedLeaves = async (req, res, next)=>{
 }
 
 //get all your requested reimbursements.
-const getRequestedReImbursments = async (req, res, next)=>{
+const getRequestedReImbursments = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const leaves = await User.findAll({
-            where:{id:userId},
-            include:[
+            where: { id: userId },
+            attributes: ['id', 'name', 'email', 'role', 'address', 'grade', 'job_location', 'reporting_manager', 'joining_date'],
+            include: [
                 {
-                model: Reimbursement,
+                    model: Reimbursement,
                     as: 'reimbursements',
                     attributes: ['id', 'amount', 'description', 'status', 'pdf_attachment']
                 }
@@ -278,7 +295,7 @@ const getRequestedReImbursments = async (req, res, next)=>{
             message: 'All requested reimbursment retrieved successfully',
             data: leaves,
         });
-        
+
 
     } catch (error) {
         next(error)
@@ -295,11 +312,7 @@ const getAllRequests = async (req, res, next) => {
                 {
                     model: Leave,
                     as: "leaves",
-                    attributes: ['id', 'start_date', 'end_date', 'status', 'leave_type', 'leave_balance'],
-                    where: {
-                        start_date: { [Op.ne]: null },
-                        end_date: { [Op.ne]: null },
-                    }
+                    attributes: ['id', 'start_date', 'end_date', 'status', 'leave_type', 'reason'],
                 },
                 {
                     model: Reimbursement,
@@ -385,16 +398,16 @@ const viewReImBursmentRequestById = async (req, res, next) => {
 const updateLeaveRequestStatus = async (req, res, next) => {
     try {
         const leaveId = req.params.id
-        const leaveRequest = await Leave.update({status:`${req.body.status}`}, {where:{id:leaveId}});
-
-        if (!leaveRequest[0]>0) {
-            throw new ApiError(404, 'Leave request not found');
+        const leaveData = await Leave.findOne({where:{id:leaveId}})
+        if(!leaveData){
+                throw new ApiError(404, 'Leave request not found');
         }
-
+        leaveData.status=req.body.status;
+        await leaveData.save()
         res.status(200).json({
             success: true,
             message: 'Leave request updated successfully',
-            data: leaveRequest,
+            data: leaveData,
         });
 
     } catch (error) {
@@ -407,10 +420,10 @@ const updateReImBursmentRequestStatus = async (req, res, next) => {
     try {
         const reimbursementId = req.params.id;
         console.log(req.body.status)
-        
-        const reimbursementRequest = await Reimbursement.update({status:`${req.body.status}`}, {where:{id:reimbursementId}});
-          console.log(reimbursementRequest)
-        if (!reimbursementRequest[0]>0) {
+
+        const reimbursementRequest = await Reimbursement.update({ status: `${req.body.status}` }, { where: { id: reimbursementId } });
+        console.log(reimbursementRequest)
+        if (!reimbursementRequest[0] > 0) {
             throw new ApiError(404, 'Reimbursement request not found');
         }
 

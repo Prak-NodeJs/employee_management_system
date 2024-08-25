@@ -8,6 +8,10 @@
 }
 
 .profile-details {
+    display: flex;
+    justify-content: center;
+    gap:50px;
+    align-items: center;
     font-size: 1.2rem;
     color: #333;
 }

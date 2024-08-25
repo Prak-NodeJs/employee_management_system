@@ -37,7 +37,8 @@ const validateLeaveApplyRequest = {
                 'string.pattern.base': 'Joining date must be in the format YYYY-MM-DD',
                 'any.required': 'Joining date is required'
             }),
-        leave_type:Joi.string().required()
+        leave_type:Joi.string().valid('Casual Leave','Sick Leave'),
+        reason:Joi.string().required()
     })
 }
 

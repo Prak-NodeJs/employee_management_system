@@ -75,6 +75,7 @@ const RequestLeaves = () => {
             <th>Start Date</th>
             <th>End Date</th>
             <th>Status</th>
+            <th>Reason</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -87,6 +88,8 @@ const RequestLeaves = () => {
                 <td>{new Date(leave.start_date).toLocaleDateString()}</td>
                 <td>{new Date(leave.end_date).toLocaleDateString()}</td>
                 <td>{leave.status}</td>
+                <td>{leave.reason}</td>
+
                 <td>
                   <button onClick={() => handleAccept(user.id, leave.id)}>Accept</button>
                   <button onClick={() => handleReject(user.id, leave.id)}>Reject</button>

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
-dotenv.config({});
+dotenv.config({path:"D:/employee_management_system/Server/.env"});
 
 const cors = require('cors');
 const userRoutes = require('./routes/employee.route')

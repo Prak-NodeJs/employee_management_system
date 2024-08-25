@@ -15,6 +15,7 @@
 
 2. **Profile Management**:
    - Users can view their personal profiles, which include details like name, email, address, job location, and reporting manager.
+   - All leaves details
 
    ![hr-dashboard](./ApplicationImages/hr_dashboard.png)
    ![employee_dashboard](./ApplicationImages/employee_dashboard.png)
@@ -25,16 +26,19 @@
    ![Add_New_User](./ApplicationImages/add_user.png)
 
 4. **Leave Application**:
-   - Both HR and Employee users can apply for leaves, specifying the start date, end date, and type of leave.
-   - They can view their applied leaves, including details like leave type, status, and leave balance.
+   - Both HR and Employee users can apply for leaves, specifying the start date, end date,reason and type of leave.
+   - They can view their applied leaves, including details like leave type, status,reason and leave balance.
 
    ![Leave_Application](./ApplicationImages/apply_leave.png)
+   ![Leave_Requsted](./ApplicationImages/requested_leaves.png)
+
 
 5. **Reimbursement Application**:
    - Both HR and Employee users can apply for reimbursements by submitting necessary details such as amount, description, and file attachments.
    - They can view their applied reimbursements with the status and attached files.
 
    ![Reimbusrment_application](./ApplicationImages/apply_reimbusrment.png)
+   
 
 6. **Leave Balance Tracking**:
    - Users can track their available leave balance, the number of leaves taken, and the total leaves available.
