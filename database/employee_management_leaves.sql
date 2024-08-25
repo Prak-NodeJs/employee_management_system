@@ -35,7 +35,7 @@ CREATE TABLE `leaves` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `leaves_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `leaves` (
 
 LOCK TABLES `leaves` WRITE;
 /*!40000 ALTER TABLE `leaves` DISABLE KEYS */;
-INSERT INTO `leaves` VALUES (1,'2024-08-27 00:00:00','2024-08-28 00:00:00','Pending','Casual Leave','Fiver',1,'2024-08-25 07:57:04','2024-08-25 07:57:04'),(2,'2024-08-06 00:00:00','2024-08-08 00:00:00','Pending','Sick Leave','Some wrong',2,'2024-08-25 08:03:27','2024-08-25 08:03:27'),(3,'2024-08-16 00:00:00','2024-08-19 00:00:00','Accepted','Casual Leave','Fiver',2,'2024-08-25 08:03:54','2024-08-25 08:06:02');
+INSERT INTO `leaves` VALUES (1,'2024-08-26 00:00:00','2024-08-28 00:00:00','Pending','Casual Leave','Fiver',2,'2024-08-25 16:52:50','2024-08-25 16:52:50'),(2,'2024-08-29 00:00:00','2024-08-30 00:00:00','Pending','Sick Leave','Some wrong',2,'2024-08-25 16:53:13','2024-08-25 16:53:13');
 /*!40000 ALTER TABLE `leaves` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-25 14:33:37
+-- Dump completed on 2024-08-25 22:31:46

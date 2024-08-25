@@ -46,7 +46,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Prakash','prakash@gmail.com','$2a$10$d1WtbceyjI1utpwelGPpbuPY2BGecgTj2oomdhAOef5GkJpbeNyH.','HR','123 Main St, Anytown, USA','A','Office 1','Prakash','2024-01-01 00:00:00','2024-08-25 07:35:22','2024-08-25 07:35:22'),(2,'Sunil','sunil@gmail.com','$2a$10$gz2wIrpXL2Jv.6mYbw2lJOjSlHMufgRGcLXu4uewsN3FxwXPjgRgy','Employee','Ekta Nagar Mankhurd Mandala','A','Mumbai','Prakash','2024-08-22 00:00:00','2024-08-25 07:56:08','2024-08-25 07:56:08');
+INSERT INTO `users` VALUES (1,'Prakash','prakash@gmail.com','$2a$10$4MekLy8BSFJ4pHOsexLaFOkyexU8qL5.xHc8CartvFGaPi1j1r1bu','HR','123 Main St, Anytown, USA','A','Office 1','Prakash','2024-01-01 00:00:00','2024-08-25 16:49:43','2024-08-25 16:49:43'),(2,'Sunil','sunil@gmail.com','$2a$10$S1Rf5eZsBGmVUeCArxQ2vuozn.nwiJMc2WKPzHPKIR88sn2u1tK2S','Employee','123 Main St, Anytown, USA','A','Office 1','Sunil','2024-01-01 00:00:00','2024-08-25 16:50:03','2024-08-25 16:50:03');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-25 14:33:37
+-- Dump completed on 2024-08-25 22:31:47
