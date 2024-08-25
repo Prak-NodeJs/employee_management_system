@@ -57,7 +57,7 @@
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Prak-NodeJs/vistaar_task.git
+    git clone https://github.com/Prak-NodeJs/employee_management_system.git
     cd employee_management_system
     ```
 
