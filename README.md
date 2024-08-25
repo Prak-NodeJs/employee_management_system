@@ -43,7 +43,7 @@
 6. **Leave Balance Tracking**:
    - Users can track their available leave balance, the number of leaves taken, and the total leaves available.
 
-   ![detail](./ApplicationImages/employee_dashboard.png)
+   ![detail](./ApplicationImages/leave_track.png)
 
 7. **HR Dashboard**:
    - HR users can view all the requested leaves and reimbursements of employee users.
