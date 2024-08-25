@@ -83,7 +83,13 @@
 
     Open the `.env` file and configure your environment variables according to your setup.
 
-5. Start the development servers:
+5. Run the below command to sync the database tables:
+
+    ```bash
+   npx sequelize-cli db:migrate
+    ```
+
+6. Start the development servers:
     - For the server application:
       ```bash
       cd ./Server
@@ -95,4 +101,4 @@
       npm start
       ```
   
-6. Open your browser and navigate to `http://localhost:3000`.
+7. Open your browser and navigate to `http://localhost:3000`.
