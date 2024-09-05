@@ -31,7 +31,7 @@ const RequestLeaves = () => {
   useEffect(() => {
  
     fetchLeaveRequests();
-  }, [authData?.token, fetchLeaveRequests]);
+  }, []);
 
   const updateLeaveStatus = async (userId, leaveId, status) => {
     try {
