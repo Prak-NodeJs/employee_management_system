@@ -15,6 +15,7 @@ const RequestedLeave = () => {
             'Authorization': `Bearer ${authData?.token}`
           }
         });
+        console.log("hello")
 
         const data = await response.json();
 
