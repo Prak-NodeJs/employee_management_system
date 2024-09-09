@@ -5,6 +5,7 @@ const { ApiError } = require('../middleware/ApiError');
 
 const registerUser = async (req, res, next) => {
   try {
+    console.log(name)
     const { name, email, password, role, address, grade, job_location, reporting_manager, joining_date } = req.body;
 
     const existingUser = await User.findOne({ where: { email } });
